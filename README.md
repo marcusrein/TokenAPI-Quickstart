@@ -1,6 +1,14 @@
 # TokenAPI Quickstart Project
 
-This repository contains examples of how to interact with The Graph's Token API.
+This repository provides examples for integrating The Graph's Token API into your application as well as MCP integration with Cursor IDE. 
+
+For detailed documentation, visit the [official Token API docs](https://thegraph.com/docs/en/token-api/quick-start/).
+
+Key Features:
+- Direct API integration examples using React
+- Cursor MCP integration for SQL-like querying
+- Token balance and transfer tracking
+- Multi-chain support (Ethereum, Polygon, BSC)
 
 ## 1. Direct API Usage (React Example)
 
@@ -86,4 +94,8 @@ Ask Cursor questions like these:
 *   `"What are the token balances for wallet address 0x... [provide address] ... on Polygon?"` (Queries the `balances` table on the `matic` database)
 *   `"Find the 3 largest WETH (0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2) transfers on Ethereum mainnet in the last 24 hours."` (Queries the `transfers` table with time and ordering)
 
-This MCP integration provides powerful data access directly within your IDE, complementing the direct API usage demonstrated in the React application. 
+This MCP integration provides powerful data access directly within your IDE, complementing the direct API usage demonstrated in the React application.
+
+## Resources
+
+- **Token API Documentation:** [https://thegraph.com/docs/en/token-api/quick-start/](https://thegraph.com/docs/en/token-api/quick-start/)

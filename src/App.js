@@ -139,6 +139,18 @@ function App() {
           QUERY_TYPES={QUERY_TYPES}
         />
       </main>
+      <footer className="App-footer">
+        <p>
+          Powered by{' '}
+          <a
+            href="https://thegraph.com/docs/en/token-api/quick-start/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            The Graph Token API
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
