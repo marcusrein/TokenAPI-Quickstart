@@ -1,0 +1,234 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.App-header {
+  background-color: #61dafb;
+  padding: 20px;
+  color: white;
+  margin-bottom: 30px;
+  border-radius: 8px;
+}
+
+.dashboard {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.query-selector {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.query-type-btn {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  color: #555;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.query-type-btn:hover {
+  background-color: #eee;
+  border-color: #bbb;
+}
+
+.query-type-btn.active {
+  background-color: #61dafb;
+  border-color: #21a1f1;
+  color: white;
+  font-weight: bold;
+}
+
+.input-section {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adds space between label, input, and button */
+}
+
+.input-section label {
+  font-weight: bold;
+  margin-right: 5px; /* Adjust spacing if needed */
+}
+
+.input-section input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex-grow: 1; /* Allows input to take available space */
+  font-size: 1rem;
+}
+
+.input-section button {
+  padding: 10px 15px;
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.input-section button:hover {
+  background-color: #21a1f1;
+}
+
+.input-section button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.results-section {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.results-section h3 {
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #444;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.results-table th,
+.results-table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.results-table th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.results-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.results-table td:nth-child(3),
+.results-table td:nth-child(4),
+.results-table td:nth-child(5) {
+  text-align: right;
+}
+
+.results-table td:nth-child(2),
+.results-table td:nth-child(3),
+.results-table td:nth-child(6) {
+  word-break: break-all;
+}
+
+.results-section pre {
+  background-color: #eee;
+  padding: 15px;
+  border-radius: 4px;
+  overflow-x: auto;
+  text-align: left;
+}
+
+.error-message {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+  border-radius: 4px;
+  text-align: left;
+}
+
+.error-message p {
+  margin: 0;
+}
+
+.chart-container {
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.metadata-display {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.metadata-display h3 {
+  margin-top: 0;
+  border-bottom: none;
+}
+
+.metadata-display ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.metadata-display li {
+  padding: 8px 0;
+  border-bottom: 1px dotted #ddd;
+  display: flex;
+  justify-content: space-between;
+}
+
+.metadata-display li:last-child {
+  border-bottom: none;
+}
+
+.metadata-display strong {
+  color: #555;
+  margin-right: 10px;
+}
+
+/* Ensure amount column in Holders table is also right-aligned */
+.holders-table td:nth-child(3) {
+  text-align: right;
+}
+
+/* Break long addresses/hashes */
+.results-table td:nth-child(2),
+.results-table td:nth-child(3),
+.results-table td:nth-child(6),
+.holders-table td:nth-child(2) {
+  word-break: break-all;
+} 
