@@ -44,10 +44,9 @@ Follow these steps to configure Cursor:
     *   Ensure `npx` (or `bunx`) is installed (Node.js v18+ required) and in your PATH.
 
 2.  **Configure Cursor:**
-    *   Open Cursor Settings (`Cmd + ,` or `Ctrl + ,`).
+    *   Open Cursor Settings.
     *   Go to the `MCP` section.
     *   Click "Add new global MCP Server".
-    *   Alternatively, edit `~/.cursor/mcp.json`.
 
 3.  **Add Server Details:**
     Use the following configuration, replacing `<YOUR_JWT_TOKEN>` with your actual token:
