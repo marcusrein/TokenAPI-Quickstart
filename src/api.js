@@ -53,16 +53,17 @@ const performFetch = async (url, options, context) => {
  * Fetches token balances for a given EVM wallet address.
  *
  * @param {string} walletAddress - The EVM wallet address.
+ * @param {string} [networkId='mainnet'] - The network ID (mainnet, bsc, base, arbitrum-one, optimism, matic).
  * @returns {Promise<Array<object>>} A promise resolving to the balance data array.
  */
-export const fetchBalances = async (walletAddress) => {
-  console.log('fetchBalances called with walletAddress:', walletAddress);
+export const fetchBalances = async (walletAddress, networkId = 'mainnet') => {
+  console.log('fetchBalances called with walletAddress:', walletAddress, 'networkId:', networkId);
   if (!walletAddress || typeof walletAddress !== 'string' || !walletAddress.startsWith('0x')) {
     console.error('Error: Invalid EVM wallet address provided.', walletAddress);
     throw new Error('Invalid EVM wallet address provided. Address must start with 0x.');
   }
 
-  const url = `${BASE_URL}/balances/evm/${walletAddress}`;
+  const url = `${BASE_URL}/balances/evm/${walletAddress}?network_id=${networkId}`;
   const options = {
     method: 'GET',
     headers: {
@@ -78,17 +79,18 @@ export const fetchBalances = async (walletAddress) => {
  * NOTE: Endpoint '/metadata/evm/{tokenAddress}' is inferred.
  *
  * @param {string} tokenAddress - The EVM token contract address.
+ * @param {string} [networkId='mainnet'] - The network ID (mainnet, bsc, base, arbitrum-one, optimism, matic).
  * @returns {Promise<Array<object>>} A promise resolving to the metadata array (likely contains one object).
  */
-export const fetchTokenMetadata = async (tokenAddress) => {
-  console.log('fetchTokenMetadata (Token Info) called with tokenAddress:', tokenAddress);
+export const fetchTokenMetadata = async (tokenAddress, networkId = 'mainnet') => {
+  console.log('fetchTokenMetadata (Token Info) called with tokenAddress:', tokenAddress, 'networkId:', networkId);
   if (!tokenAddress || typeof tokenAddress !== 'string' || !tokenAddress.startsWith('0x')) {
     console.error('Error: Invalid EVM token address provided.', tokenAddress);
     throw new Error('Invalid EVM token address provided. Address must start with 0x.');
   }
 
   // Correct endpoint based on official docs for Token Info (Holders & Supply)
-  const url = `${BASE_URL}/tokens/evm/${tokenAddress}`; 
+  const url = `${BASE_URL}/tokens/evm/${tokenAddress}?network_id=${networkId}`; 
   const options = {
     method: 'GET',
     headers: {
@@ -102,20 +104,43 @@ export const fetchTokenMetadata = async (tokenAddress) => {
 
 /**
  * Fetches transfers associated with a given EVM *wallet* address.
- * Corrected based on official docs.
+ * Supports pagination and filtering as per the official docs.
  *
  * @param {string} walletAddress - The EVM wallet address.
+ * @param {string} [networkId='mainnet'] - The network ID (mainnet, bsc, base, arbitrum-one, optimism, matic).
+ * @param {number} [page=1] - The page number to fetch (minimum: 1).
+ * @param {number} [limit=10] - Maximum number of results per page (1-1000).
+ * @param {number} [age] - Data age in days (1-180).
+ * @param {string} [contractAddress] - Optional contract address to filter transfers.
  * @returns {Promise<Array<object>>} A promise resolving to the transfers data array.
  */
-export const fetchTokenTransfers = async (walletAddress) => {
-  console.log('fetchTokenTransfers called with walletAddress:', walletAddress);
-   if (!walletAddress || typeof walletAddress !== 'string' || !walletAddress.startsWith('0x')) {
+export const fetchTokenTransfers = async (
+  walletAddress,
+  networkId = 'mainnet',
+  page = 1,
+  limit = 10,
+  age,
+  contractAddress
+) => {
+  console.log('fetchTokenTransfers called with walletAddress:', walletAddress, 
+      'networkId:', networkId, 
+      'page:', page, 
+      'limit:', limit, 
+      'age:', age, 
+      'contractAddress:', contractAddress);
+      
+  if (!walletAddress || typeof walletAddress !== 'string' || !walletAddress.startsWith('0x')) {
     console.error('Error: Invalid EVM wallet address provided.', walletAddress);
     throw new Error('Invalid EVM wallet address provided. Address must start with 0x.');
   }
 
-  // Correct endpoint based on official docs
-  const url = `${BASE_URL}/transfers/evm/${walletAddress}`; 
+  // Build URL with query parameters
+  let url = `${BASE_URL}/transfers/evm/${walletAddress}?network_id=${networkId}&page=${page}&limit=${limit}`;
+  
+  // Add optional parameters if provided
+  if (age !== undefined) url += `&age=${age}`;
+  if (contractAddress) url += `&contract=${contractAddress}`;
+  
   const options = {
     method: 'GET',
     headers: {
@@ -123,25 +148,27 @@ export const fetchTokenTransfers = async (walletAddress) => {
       Authorization: `Bearer ${JWT_TOKEN}`,
     },
   };
+  
+  console.log(`[Token Transfers] Request URL with params: ${url}`);
   return performFetch(url, options, 'Token Transfers');
 };
 
 /**
  * Fetches historical OHLC data for a given EVM token address.
- * NOTE: Endpoint '/ohlc/evm/{tokenAddress}' is inferred.
  *
  * @param {string} tokenAddress - The EVM token contract address.
+ * @param {string} [networkId='mainnet'] - The network ID (mainnet, bsc, base, arbitrum-one, optimism, matic).
  * @returns {Promise<Array<object>>} A promise resolving to the OHLC data array.
  */
-export const fetchTokenOhlc = async (tokenAddress) => {
-    console.log('fetchTokenOhlc called with tokenAddress:', tokenAddress);
+export const fetchTokenOhlc = async (tokenAddress, networkId = 'mainnet') => {
+    console.log('fetchTokenOhlc called with tokenAddress:', tokenAddress, 'networkId:', networkId);
     if (!tokenAddress || typeof tokenAddress !== 'string' || !tokenAddress.startsWith('0x')) {
         console.error('Error: Invalid EVM token address provided.', tokenAddress);
         throw new Error('Invalid EVM token address provided. Address must start with 0x.');
     }
 
     // Correct endpoint based on official docs
-    const url = `${BASE_URL}/ohlc/prices/evm/${tokenAddress}`; 
+    const url = `${BASE_URL}/ohlc/prices/evm/${tokenAddress}?network_id=${networkId}`; 
     const options = {
         method: 'GET',
         headers: {
@@ -157,17 +184,18 @@ export const fetchTokenOhlc = async (tokenAddress) => {
  * Added based on official docs.
  *
  * @param {string} tokenAddress - The EVM token contract address.
+ * @param {string} [networkId='mainnet'] - The network ID (mainnet, bsc, base, arbitrum-one, optimism, matic).
  * @returns {Promise<Array<object>>} A promise resolving to the holders data array.
  */
-export const fetchTokenHolders = async (tokenAddress) => {
-    console.log('fetchTokenHolders called with tokenAddress:', tokenAddress);
+export const fetchTokenHolders = async (tokenAddress, networkId = 'mainnet') => {
+    console.log('fetchTokenHolders called with tokenAddress:', tokenAddress, 'networkId:', networkId);
     if (!tokenAddress || typeof tokenAddress !== 'string' || !tokenAddress.startsWith('0x')) {
         console.error('Error: Invalid EVM token address provided.', tokenAddress);
         throw new Error('Invalid EVM token address provided. Address must start with 0x.');
     }
 
     // Endpoint from official docs
-    const url = `${BASE_URL}/holders/evm/${tokenAddress}`;
+    const url = `${BASE_URL}/holders/evm/${tokenAddress}?network_id=${networkId}`;
     const options = {
         method: 'GET',
         headers: {
