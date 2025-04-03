@@ -202,6 +202,11 @@ function Dashboard({
     }
   };
 
+  // Loading spinner component
+  const LoadingSpinner = () => (
+    <span className="loading-spinner"></span>
+  );
+
   return (
     <div className="dashboard">
       <div className="query-selector">
@@ -227,8 +232,14 @@ function Dashboard({
           onChange={handleAddressChange}
           placeholder={currentPlaceholder}
         />
-        <button onClick={handleFetchClick} disabled={loading || !currentAddress}>
-          {loading ? 'Fetching...' : `Fetch ${queryType}`}
+        <button onClick={handleFetchClick} disabled={loading || !currentAddress} className="fetch-button">
+          {loading ? (
+            <span className="loading-text">
+              Fetching <LoadingSpinner />
+            </span>
+          ) : (
+            `Fetch ${queryType}`
+          )}
         </button>
       </div>
 
@@ -237,8 +248,6 @@ function Dashboard({
           <p>Error: {error}</p>
         </div>
       )}
-
-      {loading && <p>Loading...</p>}
 
       {results && (
         <div className="results-section">
